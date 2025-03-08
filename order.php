@@ -70,22 +70,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         echo 'Stav objednávky: '.$result[0]["status"];
         echo "<br />";
 
-        foreach($result as $oneProductOfOrder){
-            echo 'Jméno produktu: '.$oneProductOfOrder["name"];
-            echo "<br />";
-            echo 'Cena produktu: '.$oneProductOfOrder["price"];
-            echo " ".$oneProductOfOrder["currency"];
-            $currencyProduct = $oneProductOfOrder["currency"];
-            echo "<br />";
-            echo 'Množství: '.$oneProductOfOrder["quantity"];
-            echo "<br />";
+        echo "<table border='1' cellpadding='5' cellspacing='0'>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Cena</th>
+                    <th>Množství</th>
+                    <th>Mezisoučet</th>
+                </tr>";
 
-            $subTotalOrder = $oneProductOfOrder["quantity"] * $oneProductOfOrder["price"]; 
+        foreach ($result as $oneProductOfOrder) {
+            $subTotalOrder = $oneProductOfOrder["quantity"] * $oneProductOfOrder["price"];
             $totalPriceOrder += $subTotalOrder;
+            $currencyProduct = $oneProductOfOrder["currency"];
 
-        };
+            echo "<tr>
+                    <td>{$oneProductOfOrder['name']}</td>
+                    <td>{$oneProductOfOrder['price']} {$currencyProduct}</td>
+                    <td>{$oneProductOfOrder['quantity']}</td>
+                    <td>{$subTotalOrder} {$currencyProduct}</td>
+                </tr>";
+        }
 
-        echo "Celková částka objednávky: {$totalPriceOrder} {$currencyProduct}";
+        echo "</table>";
+        echo "<h3>Celková částka objednávky: {$totalPriceOrder} {$currencyProduct}</h3>";
     }else{
         
         echo "Zadejte prosím číslo Vaší objednávky";
