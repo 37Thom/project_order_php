@@ -7,5 +7,13 @@
 </head>
 <body>
     
+    <main>
+        <?php
+
+            require "order.php";
+
+        ?>
+    </main>
+
 </body>
 </html>
